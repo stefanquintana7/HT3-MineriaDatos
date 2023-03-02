@@ -1,7 +1,7 @@
 ---
 title: "Hoja de Trabajo 3"
-author: "Sofía Escobar, Stefan Quintana, Wilfredo Gallegos"
-date: "2023-03-02"
+author: "Stefan Quintana, Sofía Escobar, Wilfredo Gallegos"
+date: "2023-02-03"
 output: html_document
 ---
 
@@ -10,5 +10,5 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-
+test <- read.csv("test.csv")
 ```
