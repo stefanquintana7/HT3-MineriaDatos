@@ -1,0 +1,23 @@
+---
+title: "HT3"
+author: "Stefan Quintana"
+date: "3/7/2023"
+output: html_document
+---
+
+```{r, echo=FALSE}
+library("dplyr")
+
+datos <- read.csv("C:/Stefan/MineriaDatos/train.csv")
+str(datos)
+summary(datos)
+
+```
+Acá van los resultados del análisis
+```{r, echo = FALSE}
+datos2 <- dplyr::select_if(datos, is.numeric)
+datosc <- scale(datos2)
+cor(datosc)
+```
+
+Observando las correlaciones se puede notar que las variables OverallQual y GrLivArea son las que tienen una correlación en valor absoluto mayor a 0.7, por lo tanto, deben ser las que se toman en cuenta en el modelo.
