@@ -15,7 +15,51 @@ summary(datos)
 ```
 ##P2 y P3. Analisis Exploratorio
 
-Acá van los resultados del análisis
+Las variables siguientes son cuantitativas y discretas, por lo tanto serán tomadas en cuenta en el análisis y modelado:
+
+->MSSubClass
+->LotFrontage
+->LotArea
+->OverallQual
+->OverallCond
+->YearBuilt
+->YearRemodAdd
+->MasVnrArea
+->BsmtFinSF1
+->BsmtFinSF2
+->BsmtUnfSF
+->TotalBsmtSF
+->X1stFlrSF
+->X2ndFlrSF
+->LowQualFinSF
+->GrLivArea
+->BsmtFullBath
+->BsmtHalfBath
+->FullBath
+->HalfBath
+->BedroomAbvGr
+->KitchenAbvGr
+->TotRmsAbvGrd
+->Fireplaces
+->GarageYrBlt
+->GarageCars
+->GarageArea
+->WoodDeckSF
+->OpenPorchSF
+->EnclosedPorch
+->X3SsnPorch
+->ScreenPorch
+->PoolArea
+->MiscVal
+->MoSold
+->YrSold
+->SaleCondition
+->SalePrice
+
+No existen variables cuantitativas continuas.
+
+
+
 ```{r, echo = FALSE}
 datos2 <- dplyr::select_if(datos, is.numeric)
 datosc <- scale(datos2)
