@@ -13,8 +13,7 @@ str(datos)
 summary(datos)
 
 ```
-
-##Analisis Exploratorio
+##P2 y P3. Analisis Exploratorio
 
 Acá van los resultados del análisis
 ```{r, echo = FALSE}
@@ -23,16 +22,15 @@ datosc <- scale(datos2)
 cor(datosc)
 ```
 
-Observando las correlaciones se puede notar que las variables OverallQual y GrLivArea son las que tienen una correlación en valor absoluto mayor a 0.7, por lo tanto, deben ser las que se toman en cuenta en el modelo.
+Observando las correlaciones se puede notar que las variables OverallQual y GrLivArea son las que tienen una correlación en valor absoluto mayor a 0.7, por lo tanto, deben ser las que se tomaran en cuenta en el modelo.
 
-##Particion de los datos en dos conjuntos
+##Pregunta 4. Particion de los datos en dos conjuntos
 
 Como los datos están balanceados se hizo una partición aleatoria utilizando el 70% de los datos para entrenamiento y el 30% de los datos para prueba.  
 ```{r}
 porcentaje<-0.7
 set.seed(123)
-
-corte <- sample(nrow(datos2),nrow(datos2)*porcentaje)
+corte <- sample(nrow(datosc),nrow(datosc)*porcentaje)
 training<-datos[corte,]
 test<-datos[-corte,]
 ```
@@ -47,7 +45,7 @@ head(training)
 head(test)
 ```
 
-##Modelo univariable
+##Preguntas 5-7. Modelo univariable
 ```{r}
 datosunivar<-lm(SalePrice~OverallQual, data = training)
 
@@ -71,20 +69,22 @@ theme_bw() + theme(plot.title = element_text(hjust = 0.5))
 summary(datosunivar)
 ```
 
+Como se puede notar ambos coeficientes son significativos, eso nos dice que la calidad general de las casas es un buen predictor de su precio. El valor de $R^2$ es de 0.61 que nos dice que el modelo es valido pero no es el mejor.
+
 ### Análisis de Residuales  
  
 ```{r}
 plot(datosunivar)
+```
+```{r}
 hist(datosunivar$residuals)
 boxplot(datosunivar$residuals)
 qqnorm(datosunivar$residuals)
 qqline(datosunivar$residuals, col="red")
 ```
 
-```{r}
-library(nortest)
-lillie.test(datosunivar$residuals)
-```
+Analisis: en el grafico ***Residuals vs Fitted*** no se observa ningun patron y todos los puntos estas distribuidos al rededor de 0 de manera aleatoria. Para el grafico q-q notamos que los datos siguen bastante bien la linea por lo que se determina que son normales. Con respecto al histograma y el diagrama de caja y bigotes, estos nos confirman la normalidad de los residuos vista en el grafico qq.
+
 
 ###Prediccion de los datos
 
@@ -102,32 +102,54 @@ points(predLM, col="red")
 ```{r}
 summary(test$SalePrice-predLM)
 ```
+Se observa que la predicción es buena pero que no es la variable más significativa con respecto a los precios de las casa.
 
 
-##Modelo regresión lineal multiple
+##Pregunta 8. Modelo regresión lineal multiple
 ```{r}
 datosmult<-lm(SalePrice~.,data = datos2)
-datosmult
 ```
 
-###Resumen de los datos
-```{r warning=FALSE,message=FALSE,results='hide'}
+###Resumen del modelo:
+```{r}
 summary(datosmult)
 ```
 
+Las variables son significativas y el modelo explica los datos en un 80%, con un R ajustado de 0.80. 
 
 ### Análisis de Residuales  
  
 ```{r}
 plot(datosmult)
+
+```
+```{r}
 hist(datosmult$residuals)
 boxplot(datosmult$residuals)
 qqnorm(datosmult$residuals)
 qqline(datosmult$residuals, col="red")
 ```
+Analisis: en el grafico ***Residuals vs Fitted*** no se observa ningun patron y todos los puntos estas distribuidos al rededor de 0 de manera aleatoria, incluso si estan bastante agrupados. Para el grafico q-q notamos que los datos siguen bastante bien la linea por lo que se determina que son normales. Con respecto al histograma y el diagrama de caja y bigotes, estos nos confirman la normalidad de los residuos vista en el grafico qq.
 
+
+
+###Prediccion de los datos
 
 ```{r}
-library(nortest)
-lillie.test(datosmult$residuals)
+pp<-predict(datosmult, newdata = test)
+library(caret)
+RMSE(pp,test$SalePrice)
 ```
+
+```{r}
+plot(test$SalePrice,col="blue")
+points(pp, col="red")
+```
+
+```{r}
+summary(test$SalePrice-pp)
+```
+Se observa que la predicción de las variables es  buena pero podría mejorarse.
+
+##Multicolinealidad
+
