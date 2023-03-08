@@ -1,6 +1,6 @@
 ---
 title: "HT3"
-author: "Stefan Quintana"
+author: "Stefan Quintana, Sofía Escobar, Wilfredo Gallegos"
 date: "3/7/2023"
 output: html_document
 ---
@@ -8,11 +8,14 @@ output: html_document
 ```{r, echo=FALSE}
 library("dplyr")
 
-datos <- read.csv("C:/Stefan/MineriaDatos/train.csv")
+datos <- read.csv("train.csv")
 str(datos)
 summary(datos)
 
 ```
+
+##Analisis Exploratorio
+
 Acá van los resultados del análisis
 ```{r, echo = FALSE}
 datos2 <- dplyr::select_if(datos, is.numeric)
@@ -21,3 +24,110 @@ cor(datosc)
 ```
 
 Observando las correlaciones se puede notar que las variables OverallQual y GrLivArea son las que tienen una correlación en valor absoluto mayor a 0.7, por lo tanto, deben ser las que se toman en cuenta en el modelo.
+
+##Particion de los datos en dos conjuntos
+
+Como los datos están balanceados se hizo una partición aleatoria utilizando el 70% de los datos para entrenamiento y el 30% de los datos para prueba.  
+```{r}
+porcentaje<-0.7
+set.seed(123)
+
+corte <- sample(nrow(datos2),nrow(datos2)*porcentaje)
+training<-datos[corte,]
+test<-datos[-corte,]
+```
+
+###Conjunto de entrenamiento (cantidad de muestras: `r nrow(train)`):  
+```{r echo=FALSE}
+head(training)
+```
+
+###Conjunto de Prueba (cantidad de muestras: `r nrow(test)`):  
+```{r}
+head(test)
+```
+
+##Modelo univariable
+```{r}
+datosunivar<-lm(SalePrice~OverallQual, data = training)
+
+```
+
+###Ecuacion del modelo:  
+$SalePrice = `r round(datosunivar$coefficients[2],2)`OverallQual + `r round(fitLMPW$coefficients[1],2)`$  
+
+###Grafico del modelo:
+```{r}
+library(ggplot2)
+ggplot(data = training, mapping = aes(x = OverallQual, y = SalePrice)) +
+geom_point(color = "firebrick", size = 2) +
+geom_smooth(method = "lm", se = TRUE, color = "black") +
+labs(title = "Precio de las casas ~ Calidad general", x = "Calidad", y = "Precio") +
+theme_bw() + theme(plot.title = element_text(hjust = 0.5))
+```
+
+###Resumen del modelo:
+```{r}
+summary(datosunivar)
+```
+
+### Análisis de Residuales  
+ 
+```{r}
+plot(datosunivar)
+hist(datosunivar$residuals)
+boxplot(datosunivar$residuals)
+qqnorm(datosunivar$residuals)
+qqline(datosunivar$residuals, col="red")
+```
+
+```{r}
+library(nortest)
+lillie.test(datosunivar$residuals)
+```
+
+###Prediccion de los datos
+
+```{r}
+predLM<-predict(datosunivar, newdata = test)
+library(caret)
+RMSE(predLM,test$SalePrice)
+```
+
+```{r}
+plot(test$SalePrice,col="blue")
+points(predLM, col="red")
+```
+
+```{r}
+summary(test$SalePrice-predLM)
+```
+
+
+##Modelo regresión lineal multiple
+```{r}
+datosmult<-lm(SalePrice~.,data = datos2)
+datosmult
+```
+
+###Resumen de los datos
+```{r warning=FALSE,message=FALSE,results='hide'}
+summary(datosmult)
+```
+
+
+### Análisis de Residuales  
+ 
+```{r}
+plot(datosmult)
+hist(datosmult$residuals)
+boxplot(datosmult$residuals)
+qqnorm(datosmult$residuals)
+qqline(datosmult$residuals, col="red")
+```
+
+
+```{r}
+library(nortest)
+lillie.test(datosmult$residuals)
+```
