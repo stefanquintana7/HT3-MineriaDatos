@@ -58,7 +58,148 @@ Las variables siguientes son cuantitativas y discretas, por lo tanto serán toma
 
 No existen variables cuantitativas continuas.
 
+En cuánto al análsis se puede notar en el archivo adjunto con los histogramas de las variables que ninguna variable parece respetar una distribución normal.
 
+Para confirmar lo visto por los histogramas se le hará una prueba de normalidad a cada variable, si cada una presenta un valor-p menor a 0.05 se confirma la conclusión.
+
+
+###MSSubClass
+
+```{r, echo = FALSE}
+library(nortest)
+qqnorm(datos$MSSubClass)
+qqline(datos$MSSubClass)
+lillie.test(datos$MSSubClass)
+```
+
+###LotFrontage
+
+```{r, echo = FALSE}
+qqnorm(datos$LotFrontage)
+qqline(datos$LotFrontage)
+lillie.test(datos$LotFrontage)
+```
+
+
+###LotArea
+
+```{r, echo = FALSE}
+qqnorm(datos$LotArea)
+qqline(datos$LotArea)
+lillie.test(datos$LotArea)
+```
+
+###OverallQual
+
+```{r, echo = FALSE}
+qqnorm(datos$OverallQual)
+qqline(datos$OverallQual)
+lillie.test(datos$OverallQual)
+```
+
+###OverallCond
+
+```{r, echo = FALSE}
+qqnorm(datos$OverallCond)
+qqline(datos$OverallCond)
+lillie.test(datos$OverallCond)
+```
+
+###YearBuilt
+
+```{r, echo = FALSE}
+qqnorm(datos$YearBuilt)
+qqline(datos$YearBuilt)
+lillie.test(datos$YearBuilt)
+```
+
+###YearRemodAdd
+
+```{r, echo = FALSE}
+qqnorm(datos$YearRemodAdd)
+qqline(datos$YearRemodAdd)
+lillie.test(datos$YearRemodAdd)
+```
+
+###MasVnrArea
+
+```{r, echo = FALSE}
+qqnorm(datos$MasVnrArea)
+qqline(datos$MasVnrArea)
+lillie.test(datos$MasVnrArea)
+```
+
+###BsmtFinSF1
+
+```{r, echo = FALSE}
+qqnorm(datos$BsmtFinSF1)
+qqline(datos$BsmtFinSF1)
+lillie.test(datos$BsmtFinSF1)
+```
+
+###BsmtFinSF2
+
+```{r, echo = FALSE}
+qqnorm(datos$BsmtFinSF2)
+qqline(datos$BsmtFinSF2)
+lillie.test(datos$BsmtFinSF2)
+```
+
+###BsmtUnfSF
+
+```{r, echo = FALSE}
+qqnorm(datos$BsmtUnfSF)
+qqline(datos$BsmtUnfSF)
+lillie.test(datos$BsmtUnfSF)
+```
+
+###TotalBsmtSF
+
+```{r, echo = FALSE}
+qqnorm(datos$TotalBsmtSF)
+qqline(datos$TotalBsmtSF)
+lillie.test(datos$TotalBsmtSF)
+```
+
+###X1stFlrSF
+
+```{r, echo = FALSE}
+qqnorm(datos$X1stFlrSF)
+qqline(datos$X1stFlrSF)
+lillie.test(datos$X1stFlrSF)
+```
+
+###X2ndFlrSF
+
+```{r, echo = FALSE}
+qqnorm(datos$X2ndFlrSF)
+qqline(datos$X2ndFlrSF)
+lillie.test(datos$X2ndFlrSF)
+```
+
+###LowQualFinSF
+
+```{r, echo = FALSE}
+qqnorm(datos$LowQualFinSF)
+qqline(datos$LowQualFinSF)
+lillie.test(datos$LowQualFinSFF)
+```
+
+###GrLivArea
+
+```{r, echo = FALSE}
+qqnorm(datos$GrLivArea)
+qqline(datos$GrLivArea)
+lillie.test(datos$GrLivArea)
+```
+
+###BsmtFullBath
+
+```{r, echo = FALSE}
+qqnorm(datos$BsmtFullBath)
+qqline(datos$BsmtFullBath)
+lillie.test(datos$BsmtFullBath)
+```
 
 ```{r, echo = FALSE}
 datos2 <- dplyr::select_if(datos, is.numeric)
