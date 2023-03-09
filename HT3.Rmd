@@ -201,6 +201,186 @@ qqline(datos$BsmtFullBath)
 lillie.test(datos$BsmtFullBath)
 ```
 
+###BsmtHalfBath
+
+```{r, echo = FALSE}
+qqnorm(datos$BsmtHalfBath)
+qqline(datos$BsmtHalfBath)
+lillie.test(datos$BsmtHalfBath)
+```
+
+###FullBath
+
+```{r, echo = FALSE}
+qqnorm(datos$FullBath)
+qqline(datos$FullBath)
+lillie.test(datos$FullBath)
+```
+
+###HalfBath
+
+```{r, echo = FALSE}
+qqnorm(datos$HalfBath)
+qqline(datos$HalfBath)
+lillie.test(datos$HalfBath)
+```
+
+###BedroomAbvGr
+
+```{r, echo = FALSE}
+qqnorm(datos$BedroomAbvGr)
+qqline(datos$BedroomAbvGr)
+lillie.test(datos$BedroomAbvGr)
+```
+
+###KitchenAbvGr
+
+```{r, echo = FALSE}
+qqnorm(datos$KitchenAbvGr)
+qqline(datos$KitchenAbvGr)
+lillie.test(datos$KitchenAbvGr)
+```
+
+###TotRmsAbvGrd
+
+```{r, echo = FALSE}
+qqnorm(datos$TotRmsAbvGrd)
+qqline(datos$TotRmsAbvGrd)
+lillie.test(datos$TotRmsAbvGrd)
+```
+
+###Fireplaces
+
+```{r, echo = FALSE}
+qqnorm(datos$Fireplaces)
+qqline(datos$Fireplaces)
+lillie.test(datos$Fireplaces)
+```
+
+###TotRmsAbvGrd
+
+```{r, echo = FALSE}
+qqnorm(datos$TotRmsAbvGrd)
+qqline(datos$TotRmsAbvGrd)
+lillie.test(datos$TotRmsAbvGrd)
+```
+
+###GarageYrBlt
+
+```{r, echo = FALSE}
+qqnorm(datos$GarageYrBlt)
+qqline(datos$GarageYrBlt)
+lillie.test(datos$GarageYrBlt)
+```
+
+###GarageCars
+
+```{r, echo = FALSE}
+qqnorm(datos$GarageCars)
+qqline(datos$GarageCars)
+lillie.test(datos$GarageCars)
+```
+
+###GarageArea
+
+```{r, echo = FALSE}
+qqnorm(datos$GarageArea)
+qqline(datos$GarageArea)
+lillie.test(datos$GarageArea)
+```
+
+###WoodDeckSF
+
+```{r, echo = FALSE}
+qqnorm(datos$WoodDeckSF)
+qqline(datos$WoodDeckSF)
+lillie.test(datos$WoodDeckSF)
+```
+
+###EnclosedPorch
+
+```{r, echo = FALSE}
+qqnorm(datos$EnclosedPorch)
+qqline(datos$EnclosedPorch)
+lillie.test(datos$EnclosedPorch)
+```
+
+###OpenPorchSF
+
+```{r, echo = FALSE}
+qqnorm(datos$OpenPorchSF)
+qqline(datos$OpenPorchSF)
+lillie.test(datos$OpenPorchSF)
+```
+
+###X3SsnPorch
+
+```{r, echo = FALSE}
+qqnorm(datos$X3SsnPorch)
+qqline(datos$X3SsnPorch)
+lillie.test(datos$X3SsnPorch)
+```
+
+###X3SsnPorch
+
+```{r, echo = FALSE}
+qqnorm(datos$X3SsnPorch)
+qqline(datos$X3SsnPorch)
+lillie.test(datos$X3SsnPorch)
+```
+
+###ScreenPorch
+
+```{r, echo = FALSE}
+qqnorm(datos$ScreenPorch)
+qqline(datos$ScreenPorch)
+lillie.test(datos$ScreenPorch)
+```
+
+###PoolArea
+
+```{r, echo = FALSE}
+qqnorm(datos$PoolArea)
+qqline(datos$PoolArea)
+lillie.test(datos$PoolArea)
+```
+
+###MiscVal
+
+```{r, echo = FALSE}
+qqnorm(datos$MiscVal)
+qqline(datos$MiscVal)
+lillie.test(datos$MiscVal)
+```
+
+###MoSold
+
+```{r, echo = FALSE}
+qqnorm(datos$MoSold)
+qqline(datos$MoSold)
+lillie.test(datos$MoSold)
+```
+
+###YrSold
+
+```{r, echo = FALSE}
+qqnorm(datos$YrSold)
+qqline(datos$YrSold)
+lillie.test(datos$YrSold)
+```
+
+###SalePrice
+
+```{r, echo = FALSE}
+qqnorm(datos$SalePrice)
+qqline(datos$SalePrice)
+lillie.test(datos$SalePrice)
+```
+
+Se puede confirmar observando las pruebas de normalidad y las gráficas que las variables no respetan una distribución normal
+
+Se escalan las variables y se saca la matriz de correlaciones para observar a que variables es más sensible el precio de venta.
+
 ```{r, echo = FALSE}
 datos2 <- dplyr::select_if(datos, is.numeric)
 datosc <- scale(datos2)
