@@ -522,7 +522,8 @@ library(corrplot)
 corrplot(mat_cor, type="upper", order="hclust", tl.col="black", tl.srt=45)
 ```
 
-Analisis: Como se mencionó al principio del informe y como se puede observar en la matriz de correlacion, las variables de **OverallQual**
+
+Analisis: Como se mencionó al principio del informe y como se puede observar en la matriz de correlación, las variables de **OverallQual** y la de **GrLivArea** son las variables con coeficiente de correlacion mayor a 0.7 en relacion a la variable **SalePrice**(variable 7 en la matriz de correlaciones). Entonces SI existe colinealidad entre ciertas variables. Estas 2 variables que tienen multicolinealidad no deberian ser predictorias en el modelo, por lo que seria bueno analizar un modelo sin estas dos variables.
 
 ## Problema 10
 ```{r}
@@ -530,9 +531,14 @@ datosmult1<-lm(SalePrice~. - OverallQual - GrLivArea,data = training1)
 plot(datosmult1)
 ```
 
+Analisis: en el grafico ***Residuals vs Fitted*** no se observa ningun patrón y todos los puntos estas distribuidos al rededor de 0 de manera aleatoria, incluso si estan bastante agrupados. Para el grafico q-q notamos que los datos siguen bastante bien la linea por lo que se determina que son normales. Con respecto al histograma y el diagrama de caja y bigotes, estos nos confirman la normalidad de los residuos vista en el grafico qq.
+
 ## Problema 11
 
-Modelo sin variables con multicolinealidad
+Abajo se muestran ambas predicciones para ambos modelos aplicados al conjunto de prueba. Para el modelo en el cual se quitan las variables colineales, analizando el error cuadratico medio(RMSE) podemos observar que tenemos una error de 36,242.3 y para el modelo en el cual se quedan estas variables tenemos un error de 32,741.98 para el precio de las casas. Comparando este error con la desviacion estandar que resultó ser de 79,602.17, en ambos casos el error se mantiene al rededor de la mitad de la desviación por lo que podemos decir que los modelos hicieron predicciones satisfactorias más no óptimas. De estos dos modelos el que mejor lo hizo fue el modelo donde se dejaron las variables ya que su error fue menor.
+
+
+### Modelo sin variables con multicolinealidad
 ```{r}
 datosmult1<-lm(SalePrice~. - OverallQual - GrLivArea,data = training1)
 test1 <- dplyr::select_if(test, is.numeric)
@@ -542,14 +548,13 @@ RMSE(pred,test1$SalePrice)
 sd(test1$SalePrice)
 ```
 
-Modelo con variables con multicolinealidad
+### Modelo con variables con multicolinealidad
 ```{r}
 datosmult2<-lm(SalePrice~. ,data = training1)
 test1 <- dplyr::select_if(test, is.numeric)
 test1 <- na.omit(test1)
 pred2<-predict(datosmult2,newdata = test1)
 RMSE(pred2,test1$SalePrice)
-sd(test1$SalePrice)
 ```
 
 
