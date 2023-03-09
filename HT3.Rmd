@@ -476,7 +476,7 @@ datosmult<-lm(SalePrice~.,data = training1)
 summary(datosmult)
 ```
 
-Las variables son significativas y el modelo explica los datos en un 80%, con un R ajustado de 0.80. 
+Las variables son significativas y el modelo explica los datos con un R ajustado de 0.783. 
 
 ### Análisis de Residuales  
  
@@ -533,6 +533,29 @@ plot(datosmult1)
 
 Analisis: en el grafico ***Residuals vs Fitted*** no se observa ningun patrón y todos los puntos estas distribuidos al rededor de 0 de manera aleatoria, incluso si estan bastante agrupados. Para el grafico q-q notamos que los datos siguen bastante bien la linea por lo que se determina que son normales. Con respecto al histograma y el diagrama de caja y bigotes, estos nos confirman la normalidad de los residuos vista en el grafico qq.
 
+###Prediccion de los datos
+
+```{r}
+p1<-predict(datosmult1, newdata = test)
+library(caret)
+RMSE(p1,test$SalePrice)
+```
+
+```{r}
+plot(test$SalePrice,col="blue")
+points(p1, col="red")
+```
+
+```{r}
+summary(test$SalePrice-p1)
+```
+###Resumen del modelo:
+```{r}
+summary(datosmult1)
+```
+Las variables son significativas y el modelo explica los datos con un R ajustado de 0.7532. 
+
+
 ## Problema 11
 
 Abajo se muestran ambas predicciones para ambos modelos aplicados al conjunto de prueba. Para el modelo en el cual se quitan las variables colineales, analizando el error cuadratico medio(RMSE) podemos observar que tenemos una error de 36,242.3 y para el modelo en el cual se quedan estas variables tenemos un error de 32,741.98 para el precio de las casas. Comparando este error con la desviacion estandar que resultó ser de 79,602.17, en ambos casos el error se mantiene al rededor de la mitad de la desviación por lo que podemos decir que los modelos hicieron predicciones satisfactorias más no óptimas. De estos dos modelos el que mejor lo hizo fue el modelo donde se dejaron las variables ya que su error fue menor.
@@ -559,3 +582,5 @@ RMSE(pred2,test1$SalePrice)
 
 
 ## Problema 12
+
+Al comparar las predicciones de ambos modelos observamos que el mejor modelo es con las variables con multicolinealidad. Ya que, variables que tenían una correlación significativa con el precio de venta fueron eliminadas para el segundo modelo, siendo OverallQuall y GrLivArea las que tenía la correlación más alta con el precio de venta pero al ser una variable categórica.Por otro lado, estas variables que tenías una correlación significativa con el precio de venta si fueron tomadas en cuenta en el modelo. Observamos que con respecto al R cuadrado el modelo con variables tiene un R cuadrado de 0.78 y el sin variables un 0.75 lo que nos indica que el modelo con las variables tiene mejor relación y mayor prodiccion al respecto de nuestros datos. (Los graficos son los realizados para las predicciones de los modelos y las tablas se encuentran en el resumen de cada modelo). 
