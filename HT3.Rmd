@@ -177,13 +177,7 @@ qqline(datos$X2ndFlrSF)
 lillie.test(datos$X2ndFlrSF)
 ```
 
-###LowQualFinSF
 
-```{r, echo = FALSE}
-qqnorm(datos$LowQualFinSF)
-qqline(datos$LowQualFinSF)
-lillie.test(datos$LowQualFinSFF)
-```
 
 ###GrLivArea
 
@@ -518,8 +512,8 @@ summary(test$SalePrice-pp)
 ```
 Se observa que la predicción de las variables es  buena pero podría mejorarse.
 
-##Multicolinealidad
-
+## Multicolinealidad
+## Problema 9
 ```{r}
 #datosmult<-lm(SalePrice~.,data = datos2)
 training1 %>% cor(use="complete.obs",method="pearson") %>% round(digits=2) -> mat_cor
@@ -528,13 +522,35 @@ library(corrplot)
 corrplot(mat_cor, type="upper", order="hclust", tl.col="black", tl.srt=45)
 ```
 
+Analisis: Como se mencionó al principio del informe y como se puede observar en la matriz de correlacion, las variables de **OverallQual**
+
+## Problema 10
+```{r}
+datosmult1<-lm(SalePrice~. - OverallQual - GrLivArea,data = training1)
+plot(datosmult1)
+```
+
+## Problema 11
+
+Modelo sin variables con multicolinealidad
 ```{r}
 datosmult1<-lm(SalePrice~. - OverallQual - GrLivArea,data = training1)
 test1 <- dplyr::select_if(test, is.numeric)
 test1 <- na.omit(test1)
-predMLM<-predict(datosmult1,newdata = test1)
-RMSE(predMLM,test$SalePrice)
-std(test1$SalePrice)
+pred<-predict(datosmult1,newdata = test1)
+RMSE(pred,test1$SalePrice)
+sd(test1$SalePrice)
 ```
-OverallQual y GrLivArea
 
+Modelo con variables con multicolinealidad
+```{r}
+datosmult2<-lm(SalePrice~. ,data = training1)
+test1 <- dplyr::select_if(test, is.numeric)
+test1 <- na.omit(test1)
+pred2<-predict(datosmult2,newdata = test1)
+RMSE(pred2,test1$SalePrice)
+sd(test1$SalePrice)
+```
+
+
+## Problema 12
