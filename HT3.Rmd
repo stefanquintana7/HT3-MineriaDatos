@@ -35,7 +35,7 @@ training<-datos[corte,]
 test<-datos[-corte,]
 ```
 
-###Conjunto de entrenamiento (cantidad de muestras: `r nrow(train)`):  
+###Conjunto de entrenamiento (cantidad de muestras: r nrow(train)):  
 ```{r echo=FALSE}
 head(training)
 ```
@@ -52,7 +52,7 @@ datosunivar<-lm(SalePrice~OverallQual, data = training)
 ```
 
 ###Ecuacion del modelo:  
-$SalePrice = `r round(datosunivar$coefficients[2],2)`OverallQual + `r round(fitLMPW$coefficients[1],2)`$  
+$SalePrice = r round(datosunivar$coefficients[2],2)OverallQual + r round(fitLMPW$coefficients[1],2)$  
 
 ###Grafico del modelo:
 ```{r}
@@ -107,7 +107,9 @@ Se observa que la predicción es buena pero que no es la variable más significa
 
 ##Pregunta 8. Modelo regresión lineal multiple
 ```{r}
-datosmult<-lm(SalePrice~.,data = datos2)
+training1 <- dplyr::select_if(training, is.numeric)
+training1 <- na.omit(training1)
+datosmult<-lm(SalePrice~.,data = training1)
 ```
 
 ###Resumen del modelo:
@@ -152,4 +154,22 @@ summary(test$SalePrice-pp)
 Se observa que la predicción de las variables es  buena pero podría mejorarse.
 
 ##Multicolinealidad
+
+```{r}
+#datosmult<-lm(SalePrice~.,data = datos2)
+training1 %>% cor(use="complete.obs",method="pearson") %>% round(digits=2) -> mat_cor
+mat_cor
+library(corrplot)
+corrplot(mat_cor, type="upper", order="hclust", tl.col="black", tl.srt=45)
+```
+
+```{r}
+datosmult1<-lm(SalePrice~. - OverallQual - GrLivArea,data = training1)
+test1 <- dplyr::select_if(test, is.numeric)
+test1 <- na.omit(test1)
+predMLM<-predict(datosmult1,newdata = test1)
+RMSE(predMLM,test$SalePrice)
+std(test1$SalePrice)
+```
+OverallQual y GrLivArea
 
